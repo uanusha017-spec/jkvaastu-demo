@@ -1,0 +1,492 @@
+{
+  "entities": {
+    "Appointment": {
+      "title": "Appointment",
+      "description": "A Vastu consultation booking submitted by a client or created by an admin, synced across all devices.",
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100,
+          "description": "Client full name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "minLength": 5,
+          "maxLength": 120,
+          "description": "Client email address"
+        },
+        "phone": {
+          "type": "string",
+          "minLength": 7,
+          "maxLength": 25,
+          "description": "Client phone or WhatsApp number"
+        },
+        "birthDate": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Date of birth of family head for favorable direction calculation"
+        },
+        "city": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80,
+          "description": "City or location of the property"
+        },
+        "propertyType": {
+          "type": "string",
+          "enum": ["Owned Home", "Rented Home", "New Construction", "Apartment / Flat", "Office / Commercial", "Factory / Industry", "Plot / Land"],
+          "description": "Category of the property"
+        },
+        "serviceCategory": {
+          "type": "string",
+          "enum": ["Vastu for House", "Vastu for Business", "Career & Job", "Health & Chakras", "Marriage & Relationships", "Education & Study", "New Property Selection"],
+          "description": "Primary consultation vertical"
+        },
+        "preferredDate": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 25,
+          "description": "Preferred consultation date (YYYY-MM-DD)"
+        },
+        "preferredSlot": {
+          "type": "string",
+          "enum": ["Morning (09:30 - 12:30)", "Afternoon (14:00 - 17:00)", "Evening (17:30 - 20:00)"],
+          "description": "Preferred consultation time window"
+        },
+        "consultationMode": {
+          "type": "string",
+          "enum": ["Online Video", "On-Site Visit", "Phone Consultation"],
+          "description": "Consultation delivery channel"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 1500,
+          "description": "Client concerns or floor plan notes"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "confirmed", "completed", "cancelled"],
+          "description": "Lifecycle status of the appointment"
+        },
+        "adminNotes": {
+          "type": "string",
+          "maxLength": 1500,
+          "description": "Internal consultant remarks"
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "UID of signed-in creator or 'guest' for public website bookings"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server last-updated timestamp"
+        }
+      },
+      "required": [
+        "fullName",
+        "email",
+        "phone",
+        "city",
+        "propertyType",
+        "serviceCategory",
+        "preferredDate",
+        "preferredSlot",
+        "consultationMode",
+        "status",
+        "userId",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "BlogPost": {
+      "title": "BlogPost",
+      "description": "An editorial article on scientific Vastu principles, chakras, directions, and home/business remedies.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 180
+        },
+        "slug": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 140,
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["Vastu Principles", "Home Vastu", "Business Vastu", "Career & Wealth", "Health & Chakras", "Education & Marriage"]
+        },
+        "excerpt": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 450
+        },
+        "content": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 15000
+        },
+        "coverImage": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "author": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "readTime": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 30
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "published"]
+        },
+        "featured": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "title",
+        "slug",
+        "category",
+        "excerpt",
+        "content",
+        "coverImage",
+        "author",
+        "readTime",
+        "status",
+        "featured",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "VideoResource": {
+      "title": "VideoResource",
+      "description": "A JK Vaastu webinar recording or educational video managed via the Admin Panel.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 160
+        },
+        "category": {
+          "type": "string",
+          "enum": ["Webinar", "Home Vastu", "Business Vastu", "Chakra & Energy", "Client Story"]
+        },
+        "videoUrl": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 500
+        },
+        "thumbnailUrl": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "duration": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "description": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 1000
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "published"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "title",
+        "category",
+        "videoUrl",
+        "thumbnailUrl",
+        "duration",
+        "description",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Testimonial": {
+      "title": "Testimonial",
+      "description": "Verified client testimonial displayed on the website and managed in the Admin Panel.",
+      "type": "object",
+      "properties": {
+        "clientName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "role": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "city": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "serviceUsed": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "quote": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 1000
+        },
+        "rating": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "published"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "clientName",
+        "role",
+        "city",
+        "serviceUsed",
+        "quote",
+        "rating",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ContactInquiry": {
+      "title": "ContactInquiry",
+      "description": "Contact message submitted through the Contact Us page.",
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "minLength": 5,
+          "maxLength": 120
+        },
+        "phone": {
+          "type": "string",
+          "minLength": 7,
+          "maxLength": 25
+        },
+        "subject": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 150
+        },
+        "message": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 2000
+        },
+        "status": {
+          "type": "string",
+          "enum": ["new", "replied", "archived"]
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "fullName",
+        "email",
+        "phone",
+        "subject",
+        "message",
+        "status",
+        "userId",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "SiteSettings": {
+      "title": "SiteSettings",
+      "description": "Global JK Vaastu brand, logo, contact information, and consultation settings editable from Admin Panel.",
+      "type": "object",
+      "properties": {
+        "brandName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "founderName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "phone": {
+          "type": "string",
+          "minLength": 7,
+          "maxLength": 30
+        },
+        "whatsapp": {
+          "type": "string",
+          "minLength": 7,
+          "maxLength": 30
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "minLength": 5,
+          "maxLength": 120
+        },
+        "locations": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 200
+        },
+        "officeHours": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 120
+        },
+        "logoUrl": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "googlePlaceId": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Optional connected Google Business Profile Place ID for live Google reviews"
+        },
+        "googleBusinessQuery": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Optional Google Business Profile search query for live review discovery"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "brandName",
+        "founderName",
+        "phone",
+        "whatsapp",
+        "email",
+        "locations",
+        "officeHours",
+        "logoUrl",
+        "updatedAt"
+      ]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Authorized admin account entry keyed by Firebase Auth UID.",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "minLength": 5,
+          "maxLength": 120
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["email", "displayName", "role", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/appointments/{appointmentId}": {
+      "schema": { "$ref": "#/entities/Appointment" },
+      "description": "Client Vastu consultation appointments (PII protected; read/manage restricted to owner or admin)."
+    },
+    "/blogs/{blogId}": {
+      "schema": { "$ref": "#/entities/BlogPost" },
+      "description": "Published Vastu blog articles (public read for published status; full CRUD for admin)."
+    },
+    "/videos/{videoId}": {
+      "schema": { "$ref": "#/entities/VideoResource" },
+      "description": "Educational videos and webinars (public read for published status; full CRUD for admin)."
+    },
+    "/testimonials/{testimonialId}": {
+      "schema": { "$ref": "#/entities/Testimonial" },
+      "description": "Client stories and reviews (public read for published status; full CRUD for admin)."
+    },
+    "/inquiries/{inquiryId}": {
+      "schema": { "$ref": "#/entities/ContactInquiry" },
+      "description": "Contact Us page inquiries (PII protected; read/manage restricted to owner or admin)."
+    },
+    "/siteSettings/{settingId}": {
+      "schema": { "$ref": "#/entities/SiteSettings" },
+      "description": "Global site branding and contact info (public read; admin write)."
+    },
+    "/admins/{adminUid}": {
+      "schema": { "$ref": "#/entities/AdminUser" },
+      "description": "Admin role registry managed exclusively by primary admin."
+    }
+  }
+}

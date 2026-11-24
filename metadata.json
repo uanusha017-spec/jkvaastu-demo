@@ -1,0 +1,6 @@
+{
+  "name": "JK Vaastu — Scientific Vastu Consultation & Admin Portal",
+  "description": "Scientific, non-demolition Vastu consultation platform for home, business, career, health, marriage, and education — powered by JK Vaastu with a real-time multi-device Admin Panel.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,415 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Pillar 0: Global Default-Deny Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Pillar 3: Global Primitives
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isPrimaryAdmin() {
+      return isVerifiedUser() && request.auth.token.email == 'uanusha017@gmail.com';
+    }
+
+    function isAdmin() {
+      return isPrimaryAdmin() || (isVerifiedUser() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)));
+    }
+
+    function isValidEmail(val) {
+      return val is string && val.size() >= 5 && val.size() <= 120 && val.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$');
+    }
+
+    function isValidString(val, minLen, maxLen) {
+      return val is string && val.size() >= minLen && val.size() <= maxLen;
+    }
+
+    function isValidOptionalString(data, key, maxLen) {
+      return !(key in data) || (data[key] is string && data[key].size() <= maxLen);
+    }
+
+    // =========================================================================
+    // Validation Blueprints (Pillar 2 - Anti-Update-Gap)
+    // =========================================================================
+
+    function isValidAppointment(data) {
+      return data.keys().hasAll([
+        'fullName', 'email', 'phone', 'city', 'propertyType',
+        'serviceCategory', 'preferredDate', 'preferredSlot',
+        'consultationMode', 'status', 'userId', 'createdAt', 'updatedAt'
+      ])
+      && data.keys().hasOnly([
+        'fullName', 'email', 'phone', 'birthDate', 'city', 'propertyType',
+        'serviceCategory', 'preferredDate', 'preferredSlot',
+        'consultationMode', 'notes', 'status', 'adminNotes',
+        'userId', 'createdAt', 'updatedAt'
+      ])
+      && isValidString(data.fullName, 2, 100)
+      && isValidEmail(data.email)
+      && isValidString(data.phone, 7, 25)
+      && isValidOptionalString(data, 'birthDate', 20)
+      && isValidString(data.city, 2, 80)
+      && data.propertyType in [
+        'Owned Home', 'Rented Home', 'New Construction',
+        'Apartment / Flat', 'Office / Commercial', 'Factory / Industry', 'Plot / Land'
+      ]
+      && data.serviceCategory in [
+        'Vastu for House', 'Vastu for Business', 'Career & Job',
+        'Health & Chakras', 'Marriage & Relationships', 'Education & Study',
+        'New Property Selection'
+      ]
+      && isValidString(data.preferredDate, 4, 25)
+      && data.preferredSlot in [
+        'Morning (09:30 - 12:30)', 'Afternoon (14:00 - 17:00)', 'Evening (17:30 - 20:00)'
+      ]
+      && data.consultationMode in ['Online Video', 'On-Site Visit', 'Phone Consultation']
+      && isValidOptionalString(data, 'notes', 1500)
+      && data.status in ['pending', 'confirmed', 'completed', 'cancelled']
+      && isValidOptionalString(data, 'adminNotes', 1500)
+      && isValidString(data.userId, 1, 128)
+      && data.createdAt is timestamp
+      && data.updatedAt is timestamp;
+    }
+
+    function isValidBlog(data) {
+      return data.keys().hasAll([
+        'title', 'slug', 'category', 'excerpt', 'content',
+        'coverImage', 'author', 'readTime', 'status', 'featured',
+        'createdAt', 'updatedAt'
+      ])
+      && data.keys().hasOnly([
+        'title', 'slug', 'category', 'excerpt', 'content',
+        'coverImage', 'author', 'readTime', 'status', 'featured',
+        'createdAt', 'updatedAt'
+      ])
+      && isValidString(data.title, 3, 180)
+      && isValidString(data.slug, 2, 140)
+      && data.slug.matches('^[a-z0-9-]+$')
+      && data.category in [
+        'Vastu Principles', 'Home Vastu', 'Business Vastu',
+        'Career & Wealth', 'Health & Chakras', 'Education & Marriage'
+      ]
+      && isValidString(data.excerpt, 10, 450)
+      && isValidString(data.content, 20, 15000)
+      && isValidString(data.coverImage, 0, 500)
+      && isValidString(data.author, 2, 100)
+      && isValidString(data.readTime, 2, 30)
+      && data.status in ['draft', 'published']
+      && data.featured is bool
+      && data.createdAt is timestamp
+      && data.updatedAt is timestamp;
+    }
+
+    function isValidVideo(data) {
+      return data.keys().hasAll([
+        'title', 'category', 'videoUrl', 'thumbnailUrl',
+        'duration', 'description', 'status', 'createdAt', 'updatedAt'
+      ])
+      && data.keys().hasOnly([
+        'title', 'category', 'videoUrl', 'thumbnailUrl',
+        'duration', 'description', 'status', 'createdAt', 'updatedAt'
+      ])
+      && isValidString(data.title, 3, 160)
+      && data.category in [
+        'Webinar', 'Home Vastu', 'Business Vastu', 'Chakra & Energy', 'Client Story'
+      ]
+      && isValidString(data.videoUrl, 5, 500)
+      && isValidString(data.thumbnailUrl, 0, 500)
+      && isValidString(data.duration, 1, 30)
+      && isValidString(data.description, 5, 1000)
+      && data.status in ['draft', 'published']
+      && data.createdAt is timestamp
+      && data.updatedAt is timestamp;
+    }
+
+    function isValidTestimonial(data) {
+      return data.keys().hasAll([
+        'clientName', 'role', 'city', 'serviceUsed',
+        'quote', 'rating', 'status', 'createdAt', 'updatedAt'
+      ])
+      && data.keys().hasOnly([
+        'clientName', 'role', 'city', 'serviceUsed',
+        'quote', 'rating', 'status', 'createdAt', 'updatedAt'
+      ])
+      && isValidString(data.clientName, 2, 100)
+      && isValidString(data.role, 2, 100)
+      && isValidString(data.city, 2, 80)
+      && isValidString(data.serviceUsed, 2, 100)
+      && isValidString(data.quote, 10, 1000)
+      && data.rating is number && data.rating >= 1 && data.rating <= 5
+      && data.status in ['draft', 'published']
+      && data.createdAt is timestamp
+      && data.updatedAt is timestamp;
+    }
+
+    function isValidInquiry(data) {
+      return data.keys().hasAll([
+        'fullName', 'email', 'phone', 'subject', 'message',
+        'status', 'userId', 'createdAt', 'updatedAt'
+      ])
+      && data.keys().hasOnly([
+        'fullName', 'email', 'phone', 'subject', 'message',
+        'status', 'userId', 'createdAt', 'updatedAt'
+      ])
+      && isValidString(data.fullName, 2, 100)
+      && isValidEmail(data.email)
+      && isValidString(data.phone, 7, 25)
+      && isValidString(data.subject, 2, 150)
+      && isValidString(data.message, 5, 2000)
+      && data.status in ['new', 'replied', 'archived']
+      && isValidString(data.userId, 1, 128)
+      && data.createdAt is timestamp
+      && data.updatedAt is timestamp;
+    }
+
+    function isValidSiteSettings(data) {
+      return data.keys().hasAll([
+        'brandName', 'founderName', 'phone', 'whatsapp',
+        'email', 'locations', 'officeHours', 'logoUrl', 'updatedAt'
+      ])
+      && data.keys().hasOnly([
+        'brandName', 'founderName', 'phone', 'whatsapp',
+        'email', 'locations', 'officeHours', 'logoUrl',
+        'googlePlaceId', 'googleBusinessQuery', 'updatedAt'
+      ])
+      && isValidString(data.brandName, 2, 80)
+      && isValidString(data.founderName, 2, 80)
+      && isValidString(data.phone, 7, 30)
+      && isValidString(data.whatsapp, 7, 30)
+      && isValidEmail(data.email)
+      && isValidString(data.locations, 3, 200)
+      && isValidString(data.officeHours, 3, 120)
+      && isValidString(data.logoUrl, 0, 500)
+      && isValidOptionalString(data, 'googlePlaceId', 160)
+      && isValidOptionalString(data, 'googleBusinessQuery', 160)
+      && data.updatedAt is timestamp;
+    }
+
+    function isValidAdminUser(data) {
+      return data.keys().hasAll(['email', 'displayName', 'role', 'createdAt'])
+      && data.keys().hasOnly(['email', 'displayName', 'role', 'createdAt'])
+      && isValidEmail(data.email)
+      && isValidString(data.displayName, 2, 100)
+      && data.role == 'admin'
+      && data.createdAt is timestamp;
+    }
+
+    // =========================================================================
+    // Collection Rules
+    // =========================================================================
+
+    // 1. Appointments (PII-protected; owner or admin read; admin full CRUD; public/user validated create)
+    match /appointments/{appointmentId} {
+      allow get: if isValidId(appointmentId)
+        && isVerifiedUser()
+        && (existing().userId == request.auth.uid || isAdmin());
+
+      allow list: if isVerifiedUser()
+        && (existing().userId == request.auth.uid || isPrimaryAdmin());
+
+      allow create: if isValidId(appointmentId)
+        && isValidAppointment(incoming())
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && (
+          isAdmin() || (
+            incoming().status == 'pending'
+            && (!('adminNotes' in incoming()) || incoming().adminNotes == '')
+            && (
+              (isVerifiedUser() && incoming().userId == request.auth.uid) ||
+              (!isSignedIn() && incoming().userId == 'guest')
+            )
+          )
+        );
+
+      allow update: if isValidId(appointmentId)
+        && isValidAppointment(incoming())
+        && isVerifiedUser()
+        && incoming().createdAt == existing().createdAt
+        && incoming().userId == existing().userId
+        && incoming().updatedAt == request.time
+        && (
+          (isAdmin() && incoming().diff(existing()).affectedKeys().hasOnly([
+            'fullName', 'email', 'phone', 'birthDate', 'city', 'propertyType',
+            'serviceCategory', 'preferredDate', 'preferredSlot',
+            'consultationMode', 'notes', 'status', 'adminNotes', 'updatedAt'
+          ])) ||
+          (
+            existing().userId == request.auth.uid
+            && existing().status == 'pending'
+            && incoming().status == 'cancelled'
+            && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt'])
+          )
+        );
+
+      allow delete: if isValidId(appointmentId) && isAdmin();
+    }
+
+    // 2. Blogs (Public read for published; Admin full CRUD)
+    match /blogs/{blogId} {
+      allow get: if isValidId(blogId) && (existing().status == 'published' || isAdmin());
+      allow list: if existing().status == 'published' || isPrimaryAdmin();
+
+      allow create: if isValidId(blogId)
+        && isValidBlog(incoming())
+        && isAdmin()
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+
+      allow update: if isValidId(blogId)
+        && isValidBlog(incoming())
+        && isAdmin()
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'title', 'slug', 'category', 'excerpt', 'content',
+          'coverImage', 'author', 'readTime', 'status', 'featured', 'updatedAt'
+        ]);
+
+      allow delete: if isValidId(blogId) && isAdmin();
+    }
+
+    // 3. Videos & Webinars (Public read for published; Admin full CRUD)
+    match /videos/{videoId} {
+      allow get: if isValidId(videoId) && (existing().status == 'published' || isAdmin());
+      allow list: if existing().status == 'published' || isPrimaryAdmin();
+
+      allow create: if isValidId(videoId)
+        && isValidVideo(incoming())
+        && isAdmin()
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+
+      allow update: if isValidId(videoId)
+        && isValidVideo(incoming())
+        && isAdmin()
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'title', 'category', 'videoUrl', 'thumbnailUrl',
+          'duration', 'description', 'status', 'updatedAt'
+        ]);
+
+      allow delete: if isValidId(videoId) && isAdmin();
+    }
+
+    // 4. Testimonials (Public read for published; Admin full CRUD)
+    match /testimonials/{testimonialId} {
+      allow get: if isValidId(testimonialId) && (existing().status == 'published' || isAdmin());
+      allow list: if existing().status == 'published' || isPrimaryAdmin();
+
+      allow create: if isValidId(testimonialId)
+        && isValidTestimonial(incoming())
+        && isAdmin()
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+
+      allow update: if isValidId(testimonialId)
+        && isValidTestimonial(incoming())
+        && isAdmin()
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'clientName', 'role', 'city', 'serviceUsed',
+          'quote', 'rating', 'status', 'updatedAt'
+        ]);
+
+      allow delete: if isValidId(testimonialId) && isAdmin();
+    }
+
+    // 5. Contact Inquiries (PII-protected; public/user validated create; admin read/update/delete)
+    match /inquiries/{inquiryId} {
+      allow get: if isValidId(inquiryId)
+        && isVerifiedUser()
+        && (existing().userId == request.auth.uid || isAdmin());
+
+      allow list: if isVerifiedUser()
+        && (existing().userId == request.auth.uid || isPrimaryAdmin());
+
+      allow create: if isValidId(inquiryId)
+        && isValidInquiry(incoming())
+        && incoming().status == 'new'
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && (
+          isAdmin() ||
+          (isVerifiedUser() && incoming().userId == request.auth.uid) ||
+          (!isSignedIn() && incoming().userId == 'guest')
+        );
+
+      allow update: if isValidId(inquiryId)
+        && isValidInquiry(incoming())
+        && isAdmin()
+        && incoming().createdAt == existing().createdAt
+        && incoming().userId == existing().userId
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']);
+
+      allow delete: if isValidId(inquiryId) && isAdmin();
+    }
+
+    // 6. Site Settings (Public read; Admin write)
+    match /siteSettings/{settingId} {
+      allow get: if isValidId(settingId) && settingId == 'main';
+      allow list: if false;
+
+      allow create: if isValidId(settingId)
+        && settingId == 'main'
+        && isValidSiteSettings(incoming())
+        && isAdmin()
+        && incoming().updatedAt == request.time;
+
+      allow update: if isValidId(settingId)
+        && settingId == 'main'
+        && isValidSiteSettings(incoming())
+        && isAdmin()
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'brandName', 'founderName', 'phone', 'whatsapp',
+          'email', 'locations', 'officeHours', 'logoUrl',
+          'googlePlaceId', 'googleBusinessQuery', 'updatedAt'
+        ]);
+
+      allow delete: if false;
+    }
+
+    // 7. Admin Registry (Primary Admin managed; users can check own doc)
+    match /admins/{adminUid} {
+      allow get: if isValidId(adminUid) && isVerifiedUser() && (request.auth.uid == adminUid || isPrimaryAdmin());
+      allow list: if isPrimaryAdmin();
+
+      allow create: if isValidId(adminUid)
+        && isValidAdminUser(incoming())
+        && isPrimaryAdmin()
+        && incoming().createdAt == request.time;
+
+      allow update: if isValidId(adminUid)
+        && isValidAdminUser(incoming())
+        && isPrimaryAdmin()
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly(['email', 'displayName', 'role']);
+
+      allow delete: if isValidId(adminUid) && isPrimaryAdmin();
+    }
+  }
+}
