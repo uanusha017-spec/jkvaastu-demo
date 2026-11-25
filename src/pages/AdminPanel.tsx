@@ -351,9 +351,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onBackToSite }) => {
         <div className="max-w-md w-full bg-white border border-slate-200 rounded-xl p-8">
           <div className="mb-6 space-y-2">
             <SafeImage
-              src={siteSettings.logoUrl || '/jkvaastu/logo.png'}
+              src={siteSettings.logoUrl || '/assets/aistudio/jk_vasstu_logo_d124cfd2.jpeg'}
               alt={siteSettings.brandName}
-              className="h-14 w-auto max-w-[220px] object-contain"
+              className="h-28 w-auto object-contain"
             />
             <p className="text-xs text-slate-500">Multi-Device Cloud Admin Console</p>
           </div>
@@ -755,9 +755,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onBackToSite }) => {
         <div className="h-16 px-5 flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5 min-w-0">
             <SafeImage
-              src={siteSettings.logoUrl || '/jkvaastu/logo.png'}
+              src={siteSettings.logoUrl || '/assets/aistudio/jk_vasstu_logo_d124cfd2.jpeg'}
               alt={siteSettings.brandName}
-              className="w-8 h-8 object-contain rounded bg-white p-0.5 shrink-0"
+              className="w-11 h-11 object-contain rounded bg-white shrink-0"
             />
             <span className="font-display text-xl font-semibold text-white truncate">
               {siteSettings.brandName}
@@ -1777,7 +1777,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onBackToSite }) => {
                   <SafeImage
                     src={settingsDraft.logoUrl}
                     alt="Logo preview"
-                    className="h-12 w-auto max-w-[180px] object-contain rounded border border-slate-200 px-2 py-1 bg-white shrink-0"
+                    className="h-24 w-auto object-contain rounded border border-slate-200 p-1 bg-white shrink-0"
                   />
                   <input
                     type="text"

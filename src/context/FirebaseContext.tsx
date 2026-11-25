@@ -255,12 +255,18 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           const isLegacyDefaultAddress =
             normalizedSavedLocation === 'bangalore and hubballi, karnataka, india' ||
             normalizedSavedLocation === 'pride icon complex, gokul road, hubballi, karnataka, india';
+          const normalizedSavedLogo = data.logoUrl?.trim() || '';
+          const isLegacyDefaultLogo =
+            !normalizedSavedLogo || normalizedSavedLogo === '/jkvaastu/logo.png';
           setSiteSettings({
             ...DEFAULT_SITE_SETTINGS,
             ...data,
             locations: isLegacyDefaultAddress
               ? DEFAULT_SITE_SETTINGS.locations
               : data.locations || DEFAULT_SITE_SETTINGS.locations,
+            logoUrl: isLegacyDefaultLogo
+              ? DEFAULT_SITE_SETTINGS.logoUrl
+              : data.logoUrl || DEFAULT_SITE_SETTINGS.logoUrl,
           });
         } else {
           setSiteSettings(DEFAULT_SITE_SETTINGS);

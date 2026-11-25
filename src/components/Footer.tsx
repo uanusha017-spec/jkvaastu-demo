@@ -20,12 +20,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenService, onOpe
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-slate-800">
           {/* Brand with Enlarged Official Horizontal Logo */}
           <div className="space-y-4">
-            <div className="inline-block bg-white rounded-xl px-3.5 py-2.5">
+            <div className="inline-block bg-white rounded-xl p-1 overflow-hidden">
               <SafeImage
-                src={siteSettings.logoUrl || '/jkvaastu/logo.png'}
+                src={siteSettings.logoUrl || '/assets/aistudio/jk_vasstu_logo_d124cfd2.jpeg'}
                 alt={siteSettings.brandName}
                 fallbackLabel={siteSettings.brandName}
-                className="h-14 sm:h-16 w-auto max-w-[230px] object-contain"
+                className="h-32 sm:h-36 w-auto object-contain scale-[1.08]"
               />
             </div>
             <p className="text-sm text-slate-400 leading-relaxed max-w-xs">

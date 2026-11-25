@@ -9,7 +9,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   locations:
     'Shop 95, First Floor, Pride Icon Mall, Gokul Rd, Chaitanya Nagar, Rajendra Nagar, Hubballi, Karnataka 580030',
   officeHours: 'Mon - Sat, 9:30 AM - 7:30 PM IST',
-  logoUrl: '/jkvaastu/logo.png',
+  logoUrl: '/assets/aistudio/jk_vasstu_logo_d124cfd2.jpeg',
   googlePlaceId: '',
   googleBusinessQuery: 'JK Vaastu Pride Icon Mall Gokul Rd Hubballi 580030',
 };

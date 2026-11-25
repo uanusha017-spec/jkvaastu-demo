@@ -75,20 +75,20 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-24 flex items-center justify-between gap-4 sm:gap-6">
-        {/* Zone 1: Prominent Full-Width Official JK Vaastu Logo (3:1 horizontal aspect) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[88px] sm:h-[104px] lg:h-[116px] flex items-center justify-between gap-4 sm:gap-6">
+        {/* Zone 1: Prominent Enlarged Official JK Vaastu Logo */}
         <button
           type="button"
           onClick={() => handleNav('home')}
           aria-label={`${siteSettings.brandName} — Home`}
-          className="flex items-center text-left shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-600 rounded-md"
+          className="flex items-center text-left shrink-0 cursor-pointer overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-600 rounded-md"
         >
           <SafeImage
-            src={siteSettings.logoUrl || '/jkvaastu/logo.png'}
+            src={siteSettings.logoUrl || '/assets/aistudio/jk_vasstu_logo_d124cfd2.jpeg'}
             alt={siteSettings.brandName}
             fallbackLabel={siteSettings.brandName}
             loading="eager"
-            className="h-14 sm:h-16 lg:h-[70px] w-auto max-w-[210px] sm:max-w-[240px] lg:max-w-[260px] object-contain"
+            className="h-[82px] sm:h-[98px] lg:h-[110px] w-auto object-contain scale-[1.12]"
           />
         </button>
 
@@ -118,7 +118,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             {servicesMenuOpen && (
-              <div className="fixed left-1/2 -translate-x-1/2 top-24 w-[min(96vw,960px)] bg-white border border-slate-200 rounded-xl shadow-xl p-6 z-50">
+              <div className="fixed left-1/2 -translate-x-1/2 top-[116px] w-[min(96vw,960px)] bg-white border border-slate-200 rounded-xl shadow-xl p-6 z-50">
                 <div className="flex items-center justify-between pb-4 mb-5 border-b border-slate-200">
                   <div>
                     <p className="text-xs font-medium text-orange-700">JK Vaastu Services Directory</p>
