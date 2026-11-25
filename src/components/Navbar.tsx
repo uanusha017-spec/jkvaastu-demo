@@ -10,6 +10,8 @@ export type PublicPage =
   | 'services'
   | 'blogs'
   | 'contact'
+  | 'terms'
+  | 'privacy'
   | 'admin';
 
 interface NavbarProps {
@@ -116,12 +118,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             {servicesMenuOpen && (
-              <div className="fixed left-1/2 -translate-x-1/2 top-24 w-[min(96vw,1160px)] bg-white border border-slate-200 rounded-xl shadow-xl p-6 z-50">
+              <div className="fixed left-1/2 -translate-x-1/2 top-24 w-[min(96vw,960px)] bg-white border border-slate-200 rounded-xl shadow-xl p-6 z-50">
                 <div className="flex items-center justify-between pb-4 mb-5 border-b border-slate-200">
                   <div>
                     <p className="text-xs font-medium text-orange-700">JK Vaastu Services Directory</p>
                     <p className="font-display text-xl font-semibold text-slate-900">
-                      Explore House, Residence, Commercial &amp; Life Vastu Consultations
+                      Explore House, Commercial &amp; Life Vastu Consultations
                     </p>
                   </div>
                   <button
@@ -134,7 +136,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   </button>
                 </div>
 
-                <div className="grid grid-cols-4 gap-6">
+                <div className="grid grid-cols-3 gap-6">
                   {JK_SERVICE_GROUPS.map((group) => (
                     <div key={group.id} className="space-y-3">
                       <button

@@ -6,11 +6,12 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   phone: '+91 84315 69661',
   whatsapp: '918431569661',
   email: 'jkvastu06@gmail.com',
-  locations: 'Pride Icon Complex, Gokul Road, Hubballi, Karnataka, India',
+  locations:
+    'Shop 95, First Floor, Pride Icon Mall, Gokul Rd, Chaitanya Nagar, Rajendra Nagar, Hubballi, Karnataka 580030',
   officeHours: 'Mon - Sat, 9:30 AM - 7:30 PM IST',
   logoUrl: '/jkvaastu/logo.png',
   googlePlaceId: '',
-  googleBusinessQuery: 'JK Vaastu Pride Icon Complex Gokul Road Hubballi',
+  googleBusinessQuery: 'JK Vaastu Pride Icon Mall Gokul Rd Hubballi 580030',
 };
 
 export const JKVAASTU_MEDIA_GALLERY = [

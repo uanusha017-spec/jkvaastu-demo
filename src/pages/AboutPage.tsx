@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import { useFirebase } from '../context/FirebaseContext';
 import { JK_ABOUT_US } from '../data/jkvaastuCatalog';
-import { CONSULTATION_STEPS, CORE_PILLARS, SEVEN_CHAKRAS } from '../data/vastuContent';
+import { CONSULTATION_STEPS, CORE_PILLARS } from '../data/vastuContent';
 import { SafeImage } from '../components/SafeImage';
 
 interface AboutPageProps {
@@ -185,48 +185,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenBooking }) => {
         </div>
       </section>
 
-      {/* 4. The Seven Chakras Matrix */}
-      <section className="py-20 bg-slate-50 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-12 items-end">
-            <div className="lg:col-span-7">
-              <p className="text-xs font-medium text-orange-700 mb-2">Human Energy Centers</p>
-              <h2 className="font-display text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
-                Channelizing Cosmic Energy Through the Seven Chakras
-              </h2>
-            </div>
-            <div className="lg:col-span-5">
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Unfavorable property directions silently drain subtle energy centers, contributing
-                to financial strain, poor focus, or restless sleep. Proper directional alignment
-                recharges all seven chakras naturally.
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {SEVEN_CHAKRAS.map((chakra) => (
-              <div
-                key={chakra.number}
-                className="p-6 bg-white border border-slate-200 rounded-xl"
-              >
-                <p className="text-xs text-slate-500">
-                  <span className="font-mono tabular-nums text-orange-700">{chakra.number}.</span>{' '}
-                  {chakra.element} · {chakra.location}
-                </p>
-                <h3 className="font-display text-2xl font-semibold text-slate-900 mt-2">
-                  {chakra.sanskrit}
-                </h3>
-                <p className="text-xs font-medium text-slate-700 mt-0.5">{chakra.english}</p>
-                <p className="text-sm text-slate-600 leading-relaxed mt-3">{chakra.influence}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Consultation Scope & Sequence */}
-      <section className="py-20 bg-white">
+      {/* 4. Consultation Scope & Sequence */}
+      <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-5 space-y-5">
             <div className="aspect-[4/3] rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
@@ -237,7 +197,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenBooking }) => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <div className="p-5 bg-white border border-slate-200 rounded-xl">
               <p className="text-xs font-semibold text-slate-900 mb-3">Our Vastu Services Include</p>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {JK_ABOUT_US.includedServices.map((svc) => (
@@ -265,7 +225,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenBooking }) => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {CONSULTATION_STEPS.map((s) => (
-                <div key={s.step} className="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                <div key={s.step} className="bg-white border border-slate-200 rounded-xl p-5">
                   <p className="font-mono text-xs text-orange-700 tabular-nums">{s.step}.</p>
                   <h3 className="text-sm font-semibold text-slate-900 mt-1">{s.title}</h3>
                   <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">{s.detail}</p>

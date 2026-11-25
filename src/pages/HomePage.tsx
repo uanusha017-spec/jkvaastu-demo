@@ -42,7 +42,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div className="lg:col-span-6 flex flex-col justify-center">
               <p className="text-xs font-medium text-orange-700 mb-3 sm:mb-4">
-                Scientific Vastu Shastra · Pride Icon Complex, Gokul Road, Hubballi · Online Worldwide
+                Scientific Vastu Shastra · Pride Icon Mall, Gokul Rd, Hubballi · Online Worldwide
               </p>
               <h1 className="font-display text-[clamp(2.1rem,4.1vw,3.75rem)] leading-[1.08] font-semibold tracking-tight text-slate-900">
                 Harmonize Your Space Without Structural Demolition
@@ -127,14 +127,14 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 2. Services Overview — All 4 JK Vaastu Categories (House, Residence, Commercial, Other) */}
+      {/* 2. Services Overview — 3 JK Vaastu Categories (House & Residence, Commercial, Other) */}
       <section className="py-20 bg-slate-50 border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div className="max-w-2xl">
               <p className="text-xs font-medium text-orange-700 mb-2">Services Overview</p>
               <h2 className="font-display text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
-                Vastu For House, Residence, Commercial &amp; Other Services
+                Vastu For House, Commercial &amp; Other Services
               </h2>
               <p className="mt-3 text-base text-slate-600 leading-relaxed">
                 Select any service below to explore authentic JK Vaastu principles, room-by-room
@@ -151,7 +151,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
             {JK_SERVICE_GROUPS.map((group) => (
               <article
                 key={group.id}
@@ -425,7 +425,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div className="max-w-2xl">
               <p className="text-xs font-medium text-orange-700 mb-2">Consultation Office</p>
               <h2 className="font-display text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
-                Visit Us at Pride Icon Complex, Gokul Road, Hubballi
+                Visit Us at Pride Icon Mall, Gokul Rd, Hubballi
               </h2>
               <p className="mt-2 text-sm sm:text-base text-slate-600">
                 {siteSettings.locations} · {siteSettings.officeHours}

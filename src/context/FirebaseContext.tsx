@@ -251,8 +251,10 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       (snap) => {
         if (snap.exists()) {
           const data = snap.data() as SiteSettings;
+          const normalizedSavedLocation = data.locations?.trim().toLowerCase() || '';
           const isLegacyDefaultAddress =
-            data.locations?.trim().toLowerCase() === 'bangalore and hubballi, karnataka, india';
+            normalizedSavedLocation === 'bangalore and hubballi, karnataka, india' ||
+            normalizedSavedLocation === 'pride icon complex, gokul road, hubballi, karnataka, india';
           setSiteSettings({
             ...DEFAULT_SITE_SETTINGS,
             ...data,

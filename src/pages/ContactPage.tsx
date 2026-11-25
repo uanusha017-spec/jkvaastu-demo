@@ -101,8 +101,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onOpenBooking }) => {
               <div className="flex items-start gap-3.5">
                 <MapPin className="w-5 h-5 text-orange-600 mt-0.5 shrink-0" />
                 <div>
-                  <p className="text-xs font-medium text-slate-500">Consultation Centers</p>
-                  <p className="text-base font-semibold text-slate-900">{siteSettings.locations}</p>
+                  <p className="text-xs font-medium text-slate-500">Consultation Office</p>
+                  <p className="text-sm sm:text-base font-semibold text-slate-900 leading-snug">
+                    {siteSettings.locations}
+                  </p>
                 </div>
               </div>
 
@@ -286,7 +288,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onOpenBooking }) => {
           </div>
         </div>
 
-        {/* Interactive Google Map — Pride Icon Complex, Gokul Road, Hubballi */}
+        {/* Interactive Google Map — Pride Icon Mall, Gokul Rd, Hubballi */}
         <div className="mt-14">
           <div className="mb-5">
             <p className="text-xs font-medium text-orange-700 mb-1.5">Directions &amp; Map</p>

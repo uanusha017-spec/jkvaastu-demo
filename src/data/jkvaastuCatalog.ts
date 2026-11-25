@@ -2,7 +2,6 @@ import type { ServiceCategory } from '../types/models';
 
 export type ServiceGroupId =
   | 'vastu-for-house'
-  | 'vastu-for-residence'
   | 'vastu-for-commercial'
   | 'other-services';
 
@@ -318,31 +317,11 @@ export const JK_SERVICE_GROUPS: JKServiceGroup[] = [
             ]
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "vastu-for-residence",
-    "label": "Vastu For Residence",
-    "shortLabel": "Residence",
-    "coverImage": "/jkvaastu/residence.jpg",
-    "bookingCategory": "New Property Selection",
-    "summary": "Vastu for residence is the scientific planning and arrangement of a home according to directional and elemental principles to ensure positive energy flow.",
-    "introParagraphs": [
-      "Vastu for residence is the scientific planning and arrangement of a home according to directional and elemental principles to ensure positive energy flow.",
-      "It focuses on:",
-      "Proper placement of entrance, bedrooms, kitchen, and living areas",
-      "Balancing the five natural elements (Earth, Water, Fire, Air, Space)",
-      "Enhancing health, financial stability, and peace of mind",
-      "Removing negative energy and correcting Vastu doshas",
-      "When a home is aligned with Vastu principles, it supports stability, growth, and emotional harmony for every family member.",
-      "Residence Vastu"
-    ],
-    "items": [
+      },
       {
         "slug": "vastu-for-new-house",
-        "groupId": "vastu-for-residence",
-        "groupLabel": "Vastu For Residence",
+        "groupId": "vastu-for-house",
+        "groupLabel": "Vastu For House",
         "title": "Vastu For New House",
         "image": "/jkvaastu/new-house.jpg",
         "bookingCategory": "New Property Selection",
@@ -399,8 +378,8 @@ export const JK_SERVICE_GROUPS: JKServiceGroup[] = [
       },
       {
         "slug": "vastu-for-apartment-flat",
-        "groupId": "vastu-for-residence",
-        "groupLabel": "Vastu For Residence",
+        "groupId": "vastu-for-house",
+        "groupLabel": "Vastu For House",
         "title": "Vastu For Apartment / Flat",
         "image": "/jkvaastu/apartments.jpg",
         "bookingCategory": "Vastu for House",
@@ -443,8 +422,8 @@ export const JK_SERVICE_GROUPS: JKServiceGroup[] = [
       },
       {
         "slug": "vastu-for-selection-of-apartment-flat-for-rent-purchase",
-        "groupId": "vastu-for-residence",
-        "groupLabel": "Vastu For Residence",
+        "groupId": "vastu-for-house",
+        "groupLabel": "Vastu For House",
         "title": "Apartment / Flat Selection (Rent / Purchase)",
         "image": "/jkvaastu/flat-select.jpg",
         "bookingCategory": "New Property Selection",
@@ -1120,5 +1099,6 @@ export function getServiceBySlug(slug: string | null | undefined): JKServiceDeta
 
 export function getServiceGroupById(id: string | null | undefined): JKServiceGroup | null {
   if (!id) return null;
-  return JK_SERVICE_GROUPS.find((g) => g.id === id) ?? null;
+  const normalized = id === 'vastu-for-residence' ? 'vastu-for-house' : id;
+  return JK_SERVICE_GROUPS.find((g) => g.id === normalized) ?? null;
 }

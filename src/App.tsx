@@ -10,6 +10,8 @@ import { AboutPage } from './pages/AboutPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { BlogsVideosPage } from './pages/BlogsVideosPage';
 import { ContactPage } from './pages/ContactPage';
+import { TermsPage } from './pages/TermsPage';
+import { PrivacyPage } from './pages/PrivacyPage';
 import { AdminPanel } from './pages/AdminPanel';
 import {
   getServiceBySlug,
@@ -30,24 +32,51 @@ function parseHashRoute(): ParsedRoute {
   const rawHash = window.location.hash.replace(/^#/, '').trim();
   const lower = rawHash.toLowerCase();
 
-  if (lower.startsWith('service/')) {
-    const slug = lower.slice('service/'.length);
-    const matched = getServiceBySlug(slug);
-    return {
-      page: 'services',
-      serviceSlug: matched ? matched.slug : null,
-      serviceGroupId: matched ? matched.groupId : null,
-    };
+  const segments = lower.split('/').filter(Boolean);
+
+  if (segments.length >= 1) {
+    const first = segments[0];
+    const second = segments[1];
+
+    // Direct group URLs: #vastu-for-house, #vastu-for-house/<slug>, #vastu-for-commercial/<slug>, etc.
+    // Also gracefully redirect legacy #vastu-for-residence URLs to vastu-for-house.
+    const matchedGroup = getServiceGroupById(first);
+    if (matchedGroup) {
+      const matchedItem = second ? getServiceBySlug(second) : null;
+      return {
+        page: 'services',
+        serviceSlug: matchedItem ? matchedItem.slug : null,
+        serviceGroupId: matchedItem ? matchedItem.groupId : matchedGroup.id,
+      };
+    }
+
+    // Legacy #service/<slug> URLs
+    if (first === 'service' && second) {
+      const matched = getServiceBySlug(second);
+      return {
+        page: 'services',
+        serviceSlug: matched ? matched.slug : null,
+        serviceGroupId: matched ? matched.groupId : null,
+      };
+    }
+
+    // Legacy #services/<groupId> URLs
+    if (first === 'services' && second) {
+      const group = getServiceGroupById(second);
+      return {
+        page: 'services',
+        serviceSlug: null,
+        serviceGroupId: group ? group.id : null,
+      };
+    }
   }
 
-  if (lower.startsWith('services/')) {
-    const gid = lower.slice('services/'.length);
-    const group = getServiceGroupById(gid);
-    return {
-      page: 'services',
-      serviceSlug: null,
-      serviceGroupId: group ? group.id : null,
-    };
+  if (lower === 'terms' || lower === 'terms-and-conditions') {
+    return { page: 'terms', serviceSlug: null, serviceGroupId: null };
+  }
+
+  if (lower === 'privacy' || lower === 'privacy-policy') {
+    return { page: 'privacy', serviceSlug: null, serviceGroupId: null };
   }
 
   if (
@@ -87,19 +116,20 @@ function AppShell() {
   const openService = useCallback((slug?: string, groupId?: ServiceGroupId) => {
     if (slug) {
       const matched = getServiceBySlug(slug);
+      const resolvedGroupId = matched ? matched.groupId : groupId || 'vastu-for-house';
       setRoute({
         page: 'services',
         serviceSlug: matched ? matched.slug : null,
-        serviceGroupId: matched ? matched.groupId : groupId || null,
+        serviceGroupId: resolvedGroupId,
       });
-      window.location.hash = `service/${slug}`;
+      window.location.hash = `${resolvedGroupId}/${slug}`;
     } else if (groupId) {
       setRoute({
         page: 'services',
         serviceSlug: null,
         serviceGroupId: groupId,
       });
-      window.location.hash = `services/${groupId}`;
+      window.location.hash = groupId;
     } else {
       setRoute({ page: 'services', serviceSlug: null, serviceGroupId: null });
       window.location.hash = 'services';
@@ -165,6 +195,12 @@ function AppShell() {
           />
         )}
         {route.page === 'contact' && <ContactPage onOpenBooking={() => openBooking()} />}
+        {route.page === 'terms' && (
+          <TermsPage onNavigate={navigate} onOpenBooking={() => openBooking()} />
+        )}
+        {route.page === 'privacy' && (
+          <PrivacyPage onNavigate={navigate} onOpenBooking={() => openBooking()} />
+        )}
       </main>
 
       <Footer

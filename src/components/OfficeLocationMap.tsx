@@ -83,7 +83,8 @@ const InteractiveOfficeMapInner: React.FC<OfficeLocationMapProps> = ({
         // Reference: https://developers.google.com/maps/documentation/javascript/place-search?utm_campaign=gmp_mcp_codeassist_v1_aistudio
         const queries = [
           address.trim(),
-          'Pride Icon Complex, Gokul Road, Hubballi, Karnataka',
+          'Pride Icon Mall, Gokul Rd, Chaitanya Nagar, Rajendra Nagar, Hubballi, Karnataka 580030',
+          'Pride Icon Mall, Gokul Road, Hubballi, Karnataka',
           'Gokul Road, Hubballi, Karnataka',
         ].filter(Boolean);
 
@@ -108,8 +109,8 @@ const InteractiveOfficeMapInner: React.FC<OfficeLocationMapProps> = ({
         if (found && coords) {
           setResolved({
             position: coords,
-            displayName: found.displayName || 'Pride Icon Complex',
-            formattedAddress: found.formattedAddress || address,
+            displayName: found.displayName || 'Pride Icon Mall',
+            formattedAddress: address || found.formattedAddress || '',
             googleMapsURI: found.googleMapsURI || null,
           });
         } else {
@@ -144,8 +145,8 @@ const InteractiveOfficeMapInner: React.FC<OfficeLocationMapProps> = ({
             <p className="text-xs font-semibold text-slate-900">
               {brandName} · Consultation Center Location
             </p>
-            <p className="text-xs text-slate-600 truncate sm:whitespace-normal">
-              {resolved?.formattedAddress || address}
+            <p className="text-xs text-slate-600 leading-snug">
+              {address || resolved?.formattedAddress}
             </p>
           </div>
         </div>
@@ -178,7 +179,7 @@ const InteractiveOfficeMapInner: React.FC<OfficeLocationMapProps> = ({
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-xs font-semibold text-orange-700 underline"
             >
-              Open Pride Icon Complex, Gokul Road, Hubballi in Google Maps
+              Open Pride Icon Mall, Gokul Rd, Hubballi in Google Maps
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
@@ -217,10 +218,10 @@ const InteractiveOfficeMapInner: React.FC<OfficeLocationMapProps> = ({
                 <div className="p-1 max-w-[230px] space-y-1">
                   <p className="text-xs font-bold text-slate-900">{brandName}</p>
                   <p className="text-[11px] font-medium text-orange-700">
-                    Pride Icon Complex, Gokul Road, Hubballi
+                    Pride Icon Mall, Gokul Rd, Hubballi
                   </p>
                   <p className="text-[11px] text-slate-600 leading-snug">
-                    {resolved.formattedAddress}
+                    {address || resolved.formattedAddress}
                   </p>
                   <a
                     href={directionsHref}

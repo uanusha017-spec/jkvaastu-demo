@@ -267,11 +267,11 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({
             Services Overview · JK Vaastu Consultation Catalog
           </p>
           <h1 className="font-display text-4xl sm:text-5xl font-semibold text-slate-900 tracking-tight leading-[1.1]">
-            Vastu For House, Residence, Commercial &amp; Life Services
+            Vastu For House, Commercial &amp; Life Services
           </h1>
           <p className="mt-4 text-base text-slate-600 leading-relaxed">
-            Explore our complete Vastu consultation directory covering individual home rooms, new
-            residences and flats, commercial spaces and industries, and personal life verticals—all
+            Explore our complete Vastu consultation directory covering home rooms, new houses,
+            apartments and flats, commercial spaces and industries, and personal life verticals—all
             with authentic guidance and non-demolition remedies.
           </p>
         </div>
