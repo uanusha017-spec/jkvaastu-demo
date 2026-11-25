@@ -5,6 +5,7 @@ import { FirebaseProvider } from './context/FirebaseContext';
 import { Navbar, type PublicPage } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { BookingModal } from './components/BookingModal';
+import { FloatingWhatsAppButton } from './components/FloatingWhatsAppButton';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { ServicesPage } from './pages/ServicesPage';
@@ -215,6 +216,8 @@ function AppShell() {
         defaultService={bookingDefaults.service}
         defaultBirthDate={bookingDefaults.birthDate}
       />
+
+      {!bookingOpen && <FloatingWhatsAppButton />}
     </div>
   );
 }
